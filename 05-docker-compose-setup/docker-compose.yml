@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build: ../02-docker-flask-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../02-docker-flask-app:/app
+    environment:
+      - FLASK_ENV=development
+    container_name: my-flask-app
+
+  file-reader:
+    build: ../03-docker-file-reader
+    volumes:
+      - ../03-docker-file-reader/test-data:/app/data
+    command: ["python", "app.py", "--dir", "/app/data"]
+    container_name: my-file-reader
+
+volumes:
+  app-data:
